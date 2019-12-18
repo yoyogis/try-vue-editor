@@ -80,7 +80,7 @@ export default {
         pinchable: true, // ["draggable", "resizable", "scalable", "rotatable"]
         origin: false,
         scrollable: true,
-        dragArea: true,
+        dragArea: false,
         snappable: true,
         bounds: {
           left: 0, bottom: 0, top: 0, right: 0,
