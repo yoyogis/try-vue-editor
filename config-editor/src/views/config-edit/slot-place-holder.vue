@@ -7,10 +7,10 @@
         height: 100%;
         min-width: 20px;
         min-height: 20px;
-        background: #31698d;
-        background-image: linear-gradient(white 1px, transparent 0),
-        linear-gradient(90deg, white 1px, transparent 0);
-        background-size: 30px 30px;
+        background: #ffffff;
+        background-image: linear-gradient(#AEB4C1 1px, transparent 0),
+        linear-gradient(90deg, #AEB4C1 1px, transparent 0);
+        background-size:5px 5px;
     }
 </style>
 <script>

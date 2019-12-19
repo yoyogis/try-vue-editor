@@ -19,5 +19,8 @@ Vue.use(myVueLib);
 
 new Vue({
   router,
+  data: {
+    editor: {},
+  },
   render: h => h(App),
 }).$mount('#app');
