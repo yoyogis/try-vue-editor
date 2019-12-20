@@ -12,7 +12,9 @@ import router from './router';
 
 Vue.use(VueDragDrop);
 
-Vue.prototype.$libs = { myVueLib };
+Vue.prototype.$libs = {
+  myVueLib,
+};
 Vue.config.productionTip = false;
 Vue.use(iview);
 Vue.use(myVueLib);
