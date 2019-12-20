@@ -4,6 +4,8 @@ import 'iview/dist/styles/iview.css';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import myVueLib from 'myVueLib';
+// 此处代码应为注册组件库时生成
+import myJiaminghiDatavLib from 'myJiaminghiDatavLib';
 
 import VueDragDrop from 'vue-drag-drop';
 
@@ -11,13 +13,13 @@ import App from './App.vue';
 import router from './router';
 
 Vue.use(VueDragDrop);
-
 Vue.prototype.$libs = {
-  myVueLib,
+  myVueLib, myJiaminghiDatavLib,
 };
 Vue.config.productionTip = false;
 Vue.use(iview);
 Vue.use(myVueLib);
+Vue.use(myJiaminghiDatavLib);
 
 new Vue({
   router,

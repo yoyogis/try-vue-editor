@@ -1,0 +1,28 @@
+{
+  "name": "myJiaminghiDatavLib",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/lib.common.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --target lib --name lib ./src/index.js && cp ./src/lib.config.js ./dist/",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@jiaminghi/data-view": "^2.5.0",
+    "core-js": "^3.4.3",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

@@ -6,6 +6,8 @@
       ref="instance"
       :is="config.tag"
       :isEditing="true"
+      v-bind="config.props"
+      style="width:100%;height:100%"
       @on-dynamic-slot-change="onDynamicSlotChange"
     >
       {{config.text}}
@@ -82,7 +84,15 @@ export default {
       return result;
     },
   },
-  created() {},
+  created() {
+    if (!this.config.props && this.metadata[this.config.tag].props) {
+      this.config.props = { config: {} };
+      for (let i = 0; i < this.metadata[this.config.tag].props.length; i++) {
+        const prop = this.metadata[this.config.tag].props[i];
+        this.config.props.config[prop.name] = prop.default;
+      }
+    }
+  },
   methods: {
     onDynamicSlotChange(dynamicSlots) {
       this.dynamicSlots = dynamicSlots;
