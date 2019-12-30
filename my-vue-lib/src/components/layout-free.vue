@@ -1,54 +1,65 @@
 <template>
   <div class="layout-free">
-    <h1>Layout Free {{isEditing}}</h1>
-    <div>
-        <Button @click="addSlot">添加布局块</Button>
-    </div>
-    <slot name="title-slot">Title slot</slot>
     <div ref="canvas" class="canvas">
-        <resize-observer @notify="handleCanvasResize" />
-        <template  v-for="item of parts">
-            <Moveable class="moveable" :key="item.name"
-                v-bind="item===$root.editor.selected?moveable:unmoveable"
-                style="width:100px; height:100px"
-                :container="$refs.canvas"
-                @drag="handleDrag"
-                @resize="handleResize"
-                @scale="handleScale"
-                @rotate="handleRotate"
-                @warp="handleWarp"
-                @pinch="handlePinch">
-                <div @dblclick="focuce(arguments[0], item)"
-                    style="width:100%; height:100%; position: absolute">
-                    <slot :name="item.name">
-                        <h3>{{item.name}}</h3>
-                    </slot>
-                </div>
-            </Moveable>
-        </template>
+      <resize-observer @notify="handleCanvasResize" />
+      <template v-for="item of parts">
+        <Moveable
+          class="moveable"
+          :key="item.name"
+          v-bind="item===$root.editor.selected?moveable:unmoveable"
+          style="width:100px; height:100px"
+          :container="$refs.canvas"
+          @drag="handleDrag"
+          @resize="handleResize"
+          @scale="handleScale"
+          @rotate="handleRotate"
+          @warp="handleWarp"
+          @pinch="handlePinch"
+        >
+          <div
+            @dblclick="focuce(arguments[0], item)"
+            style="width:100%; height:100%; position: absolute"
+          >
+            <slot :name="item.name">
+              <h3>{{item.name}}</h3>
+            </slot>
+          </div>
+        </Moveable>
+      </template>
+    </div>
+    <div class="float">
+      <h1>Layout Free {{isEditing}}</h1>
+      <div>
+        <Button @click="addSlot">添加布局块</Button>
+      </div>
+      <slot name="title-slot">Title slot</slot>
     </div>
   </div>
 </template>
-<style lang="less">
-.layout-free{
+<style lang="less" scoped>
+.layout-free {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .canvas {
+    background: wheat;
+    position: absolute;
     width: 100%;
     height: 100%;
-    .canvas{
-        background: wheat;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-    .moveable{
-        position: absolute;
-    }
-    .moveable-node{
-        width: 100%;
-        height: 100%;
-        position: relative;
-    }
+  }
+  .moveable {
+    position: absolute;
+  }
+  .moveable-node {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .float{
+      position: absolute;
+      background: springgreen;
+  }
 }
-
 </style>
 <script>
 import Moveable from 'vue-moveable';
@@ -90,7 +101,10 @@ export default {
         dragArea: false,
         snappable: true,
         bounds: {
-          left: 0, bottom: 0, top: 0, right: 0,
+          left: 0,
+          bottom: 0,
+          top: 0,
+          right: 0,
         },
       },
       unmoveable: {
@@ -128,7 +142,6 @@ export default {
         this.$emit('on-dynamic-slot-change', this.parts.map(v => v.name));
       },
       immediate: true,
-
     },
   },
 
@@ -140,6 +153,7 @@ export default {
       const part = { name: `slot${this.slotToadd++}` };
       this.parts.push(part);
       this.$set(this.$root.editor, 'selected', part);
+      this.$emit('on-select-slot', part.name);
     },
     onDropComponent(value) {
       console.log(value);
@@ -149,6 +163,7 @@ export default {
       event.stopPropagation();
       this.selected = item;
       this.$set(this.$root.editor, 'selected', item);
+      this.$emit('on-select-slot', item.name);
     },
     handleCanvasResize() {
       this.moveable.bounds.left = this.$refs.canvas.clientLeft;
@@ -170,6 +185,8 @@ export default {
       delta[0] && (target.style.width = `${width}px`);
       // eslint-disable-next-line no-unused-expressions,no-param-reassign
       delta[1] && (target.style.height = `${height}px`);
+      //   window.dispatchEvent(new Event('resize'));
+      this.$emit('on-slot-resize');
     },
     handleScale({ target, transform, scale }) {
       console.log('onScale scale', scale);

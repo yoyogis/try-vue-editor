@@ -20,9 +20,11 @@
           </Collapse>
         </Sider>
         <Content>
-          <container v-if="config" :config="config" :metadata="allLibsMap"></container>
+          <container v-if="config" :config="config" :metadata="allLibsMap"
+          @on-component-select="onSelectComponent"></container>
           <drop v-else @drop="onDropComponent" class="editor-root-drop"></drop>
         </Content>
+        <Sider v-if="editingConfig" :config="editingConfig" :metadata="allLibsMap">Sider</Sider>
       </Layout>
       <Footer>Footer</Footer>
     </Layout>
@@ -45,6 +47,7 @@ export default {
       allLibs: this.$libs,
       allLibsMap: {},
       config: null,
+      editingConfig: null,
     };
   },
   components: {
@@ -70,10 +73,14 @@ export default {
     onDropComponent(comp) {
       if (!this.config) {
         this.config = {
+          id: `${Math.random()}`,
           tag: comp.tag,
           children: [],
         };
       }
+    },
+    onSelectComponent(config) {
+      this.editingConfig = config;
     },
   },
 };
