@@ -2,7 +2,8 @@
   <div class="home">
     <Layout>
       <Header>
-        <Button>创建</Button>
+        <Input style="width:250px; margin-right:12px" v-model="currentExtLib"/>
+        <Button @click="importExtLib">导入组件库</Button>
       </Header>
       <Layout>
         <Sider hide-trigger>
@@ -38,6 +39,7 @@
   }
 </style>
 <script>
+import Vue from 'vue';
 import container from './config-edit/container.vue';
 
 export default {
@@ -45,29 +47,34 @@ export default {
   data() {
     return {
       allLibs: this.$libs,
-      allLibsMap: {},
       config: null,
       editingConfig: null,
+      currentExtLib: '',
     };
   },
   components: {
     container,
   },
-  created() {
-    console.log(this.$libs);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key in this.allLibs) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (this.allLibs.hasOwnProperty(key)) {
-        const lib = this.allLibs[key];
-        const { components } = lib.libConfig;
-        // eslint-disable-next-line no-plusplus
-        for (let j = 0; j < components.length; j++) {
-          const component = components[j];
-          this.allLibsMap[component.tag] = component;
+
+  computed: {
+    allLibsMap() {
+      console.log(this.$libs);
+      const allLibsMap = {};
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in this.allLibs) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (this.allLibs.hasOwnProperty(key)) {
+          const lib = this.allLibs[key];
+          const { components } = lib.libConfig;
+          // eslint-disable-next-line no-plusplus
+          for (let j = 0; j < components.length; j++) {
+            const component = components[j];
+            allLibsMap[component.tag] = component;
+          }
         }
       }
-    }
+      return allLibsMap;
+    },
   },
   methods: {
     onDropComponent(comp) {
@@ -81,6 +88,15 @@ export default {
     },
     onSelectComponent(config) {
       this.editingConfig = config;
+    },
+    importExtLib() {
+      // eslint-disable-next-line no-undef
+      window.System.import(this.currentExtLib).then((data) => {
+        const lib = data.default.default;
+        Vue.set(Vue.prototype.$libs, lib.libConfig.name, lib);
+        Vue.use(lib);
+        console.log(data);
+      });
     },
   },
 };

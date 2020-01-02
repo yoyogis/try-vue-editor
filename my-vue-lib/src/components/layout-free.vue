@@ -176,6 +176,7 @@ export default {
       // eslint-disable-next-line no-param-reassign
       target.style.transform = transform;
       inputEvent.stopPropagation();
+      // this.config.props.position.transform = transform;
     },
     handleResize({
       target, width, height, delta,

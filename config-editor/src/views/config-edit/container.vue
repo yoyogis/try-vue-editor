@@ -143,14 +143,12 @@ export default {
     },
 
     onSelectSlot(slotName) {
-      debugger;
       const componentConfig = this.children && this.children
         .find(c => c.slot && c.slot === slotName);
       this.onSelectComponent(componentConfig);
     },
 
     onSelectComponent(componentConfig) {
-      debugger;
       this.$emit('on-component-select', componentConfig);
     },
   },
